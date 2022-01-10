@@ -1,0 +1,14 @@
+/* https://www.w3schools.com/cssref/css_units.asp */
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #343a40;
+  height: 100vh;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
