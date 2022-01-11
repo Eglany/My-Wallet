@@ -18,7 +18,7 @@ const INVALID_PASSWORD = '23456';
 afterEach(() => jest.clearAllMocks());
 
 describe('1 - Crie uma página inicial de login com os seguintes campos e características:', () => {
-  test.only ('A rota para esta página deve ser \'/\'', () => {
+  test ('A rota para esta página deve ser \'/\'', () => {
     const { history } = renderWithRouterAndStore(<App />);
     expect(history.location.pathname).toBe('/');
   });

@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { requestLogin } from '../actions';
 import './Login.css';
 
 class Login extends React.Component {
@@ -15,20 +18,31 @@ class Login extends React.Component {
   onInputChange = ({ target: { value, type } }) => {
     this.setState({
       [type]: value,
-    }, this.onButtonClick);
+    }, this.validationLogin);
   };
 
-  onButtonClick = () => {
+  validationLogin = () => {
     const { password, email } = this.state;
     const MIN_CHAR = 6;
     const EMAILFORMAT = /\S+@\S+\.\S+/;
-    const valitationButton = EMAILFORMAT.test(email) && password.length > MIN_CHAR;
+    const valitationButton = EMAILFORMAT.test(email) && password.length >= MIN_CHAR;
 
     this.setState({ disabled: !valitationButton });
   };
 
+  onButtonClick = () => {
+    const { dispatch, history } = this.props;
+    const { email } = this.state;
+
+    dispatch(requestLogin(email));
+    history.push('/carteira');
+  }
+
   render() {
     const { disabled } = this.state;
+    // if (redirect) {
+    //   return (<Redirect to="/carteira" />);
+    // }
     return (
       <main>
         <form>
@@ -53,7 +67,6 @@ class Login extends React.Component {
               onClick={ this.onButtonClick }
             >
               Entrar
-
             </button>
           </fieldset>
         </form>
@@ -62,4 +75,9 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  history: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect()(Login);
