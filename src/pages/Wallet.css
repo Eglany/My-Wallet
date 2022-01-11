@@ -1,0 +1,15 @@
+.wallet-page {
+  background-color: #2b2d42;
+  height: 100vh;
+}
+
+.wallet-header {
+  display: flex;
+  background-color: #8d99ae;
+  justify-content: space-around;
+}
+
+header section {
+  display: flex;
+  align-items: baseline;
+}

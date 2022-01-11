@@ -2,15 +2,14 @@
 import { REQUEST_LOGIN } from '../actions';
 
 const INITIAL_STATE = {
-  user: {
-    email: '',
-  },
+  email: '',
 };
 
 const loginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case REQUEST_LOGIN:
     return {
+      ...state,
       email: action.payload,
     };
   default:

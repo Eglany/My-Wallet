@@ -40,11 +40,8 @@ class Login extends React.Component {
 
   render() {
     const { disabled } = this.state;
-    // if (redirect) {
-    //   return (<Redirect to="/carteira" />);
-    // }
     return (
-      <main>
+      <main className="login-page">
         <form>
           <fieldset>
             <input

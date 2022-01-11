@@ -1,9 +1,9 @@
 /* https://www.w3schools.com/cssref/css_units.asp */
-main {
-  display: flex;
+.login-page {
   align-items: center;
+  background-color: #2b2d42;
+  display: flex;
   justify-content: center;
-  background-color: #343a40;
   height: 100vh;
 }
 
