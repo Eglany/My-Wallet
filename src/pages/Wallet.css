@@ -1,15 +1,24 @@
 .wallet-page {
-  background-color: #2b2d42;
+  background-color: #edf2f4;
   height: 100vh;
 }
 
 .wallet-header {
+  align-items: baseline;
+  background-color: #2b2d42;
+  color: white;
   display: flex;
-  background-color: #8d99ae;
   justify-content: space-around;
 }
 
-header section {
+.wallet-form {
+  align-items: center;
+  background-color: #8d99ae;
   display: flex;
-  align-items: baseline;
+  height: 5vh;
+  justify-content: space-around;
+}
+
+input {
+  width: 50px;
 }
