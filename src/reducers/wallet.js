@@ -1,23 +1,18 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { REQUEST_EXPENSE, REQUEST_PRICE_SUCCESS } from '../actions';
+import { REQUEST_EXPENSE } from '../actions';
 
 const INITIAL_STATE = {
-  currencies: [],
+  // currencies: [],
   expenses: [],
 };
 
 const expenseReducer = (state = INITIAL_STATE, action) => {
   const { payload } = action;
+  const { expenses } = state;
   switch (action.type) {
   case REQUEST_EXPENSE:
     return {
-      ...state,
-      expenses: payload,
-    };
-  case REQUEST_PRICE_SUCCESS:
-    return {
-      ...state,
-      currencies: payload,
+      expenses: [...expenses, payload],
     };
   default:
     return state;

@@ -19,6 +19,15 @@
   justify-content: space-around;
 }
 
-input {
-  width: 50px;
+table {
+  text-align: center;
+  width: 100%;
+}
+
+/* https://www.w3schools.com/html/html_table_borders.asp */
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }

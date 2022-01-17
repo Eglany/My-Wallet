@@ -8,22 +8,17 @@ class CreateExpense extends Component {
   constructor() {
     super();
     this.state = {
+      id: 0,
       value: 0,
       description: '',
-      currency: 'BRL',
+      currency: 'USD',
       method: 'Dinheiro',
       tag: 'Lazer',
       exchangeRates: [],
     };
   }
 
-  // async componentDidMount() {
-  //   const prices = Object.values(await getPrice());
-  //   this.setState({ exchangeRates: prices });
-  // }
-
-  onInputChange = ({ target: { value, type, id } }) => {
-    console.log(value, type, id);
+  onInputChange = ({ target: { value, id } }) => {
     this.setState({
       [id]: value,
     });
@@ -31,15 +26,41 @@ class CreateExpense extends Component {
 
   onButtonClick = async () => {
     const { dispatch } = this.props;
+    const { id, currency } = this.state;
     const prices = Object.values(await getPrice());
-    this.setState({ exchangeRates: prices });
+    const findExchange = prices.find(({ code }) => code === currency);
+    this.setState({ exchangeRates: findExchange });
     dispatch(requestExpense(this.state));
+    this.setState({ id: id + 1 });
+    this.setState({
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Lazer',
+    });
   }
 
   render() {
-    const currency = ['BRL', 'USD', 'EUR'];
-    const method = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
-    const tag = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
+    const currencySelect = [
+      'USD',
+      'CAD',
+      'EUR',
+      'GBP',
+      'ARS',
+      'BTC',
+      'LTC',
+      'JPY',
+      'CHF',
+      'AUD',
+      'CNY',
+      'ILS',
+      'ETH',
+      'XRP',
+    ];
+    const { value, description } = this.state;
+    const methodSelect = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
+    const tagSelect = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
     return (
       <form className="wallet-form">
         <label htmlFor="value">
@@ -47,6 +68,7 @@ class CreateExpense extends Component {
           <input
             type="number"
             id="value"
+            value={ value }
             data-testid="value-input"
             onChange={ this.onInputChange }
           />
@@ -56,6 +78,7 @@ class CreateExpense extends Component {
           <input
             type="text"
             id="description"
+            value={ description }
             data-testid="description-input"
             onChange={ this.onInputChange }
           />
@@ -67,7 +90,7 @@ class CreateExpense extends Component {
             data-testid="currency-input"
             onChange={ this.onInputChange }
           >
-            {currency.map((coin) => (
+            {currencySelect.map((coin) => (
               <option key={ coin } value={ coin }>{coin}</option>
             ))}
           </select>
@@ -79,7 +102,7 @@ class CreateExpense extends Component {
             data-testid="method-input"
             onChange={ this.onInputChange }
           >
-            {method.map((index) => (
+            {methodSelect.map((index) => (
               <option key={ index } value={ index }>{index}</option>
             ))}
           </select>
@@ -87,7 +110,7 @@ class CreateExpense extends Component {
         <label htmlFor="tag">
           Tag:
           <select id="tag" data-testid="tag-input" onChange={ this.onInputChange }>
-            {tag.map((index) => (
+            {tagSelect.map((index) => (
               <option key={ index } value={ index }>{index}</option>
             ))}
           </select>
@@ -101,11 +124,5 @@ class CreateExpense extends Component {
 CreateExpense.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
-
-// function mapStateToProps(dispatch) {
-//   return {
-//     currencies: () => dispatch(requestPriceThunk()),
-//   };
-// }
 
 export default connect()(CreateExpense);

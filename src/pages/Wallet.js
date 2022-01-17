@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CreateExpense from '../components/CreateExpense';
 import './Wallet.css';
+import ExpenseTable from '../components/ExpenseTable';
 
 class Wallet extends React.Component {
   render() {
@@ -22,6 +23,7 @@ class Wallet extends React.Component {
           </section>
         </header>
         <CreateExpense />
+        <ExpenseTable />
       </main>
     );
   }
@@ -35,6 +37,7 @@ function mapStateToProps(state) {
   return {
     email: state.user.email,
     expenses: state.wallet.expenses,
+    // currencies: () => dispatch(requestPriceThunk()),
   };
 }
 
