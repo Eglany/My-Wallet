@@ -25,9 +25,7 @@ table {
 }
 
 /* https://www.w3schools.com/html/html_table_borders.asp */
-table,
-th,
-td {
+table, th,td {
   border: 1px solid black;
   border-collapse: collapse;
 }
