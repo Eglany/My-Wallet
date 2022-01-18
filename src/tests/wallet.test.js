@@ -187,6 +187,7 @@ describe('4 - Desenvolva um formulário para adicionar uma despesa contendo as s
       expect(valueInput.value === 0 || valueInput.value === '0' || valueInput.value === '').toBe(true);
     });
     expect(store.getState().wallet.expenses).toStrictEqual(expectedStateExpense2);
+    
 
     const totalField = screen.getByTestId(TOTAL_FIELD_TEST_ID);
     expect(totalField).toContainHTML('187.12');

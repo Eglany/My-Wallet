@@ -4,10 +4,28 @@ import { connect } from 'react-redux';
 import CreateExpense from '../components/CreateExpense';
 import './Wallet.css';
 import ExpenseTable from '../components/ExpenseTable';
+import { requestPriceThunk } from '../actions';
 
 class Wallet extends React.Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+
+    dispatch(requestPriceThunk());
+  }
+
+  calculateTotalPrice = () => {
+    const { expenses } = this.props;
+    if (expenses.length !== 0) {
+      return expenses.reduce((acc, {
+        value,
+        currency,
+        exchangeRates }) => acc + (Number(value) * Number(exchangeRates[currency].ask)),
+      0);
+    }
+    return 0;
+  }
+
   render() {
-    console.log(this.props);
     const { email } = this.props;
     return (
       <main className="wallet-page">
@@ -18,7 +36,10 @@ class Wallet extends React.Component {
             {email}
           </section>
           <section data-testid="total-field">
-            <div>Despesa Total: 0</div>
+            <div>
+              Despesa Total:
+              {(this.calculateTotalPrice()).toFixed(2)}
+            </div>
             <div data-testid="header-currency-field">BRL</div>
           </section>
         </header>
@@ -30,15 +51,12 @@ class Wallet extends React.Component {
 }
 
 Wallet.propTypes = {
-  email: PropTypes.string.isRequired,
-};
+  email: PropTypes.string,
+}.isRequired;
 
-function mapStateToProps(state) {
-  return {
-    email: state.user.email,
-    expenses: state.wallet.expenses,
-    // currencies: () => dispatch(requestPriceThunk()),
-  };
-}
+const mapStateToProps = (state) => ({
+  email: state.user.email,
+  expenses: state.wallet.expenses,
+});
 
 export default connect(mapStateToProps)(Wallet);

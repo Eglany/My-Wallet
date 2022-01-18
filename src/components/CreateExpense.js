@@ -9,11 +9,11 @@ class CreateExpense extends Component {
     super();
     this.state = {
       id: 0,
-      value: 0,
-      description: '',
+      value: '',
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Lazer',
+      description: '',
       exchangeRates: [],
     };
   }
@@ -26,38 +26,22 @@ class CreateExpense extends Component {
 
   onButtonClick = async () => {
     const { dispatch } = this.props;
-    const { id, currency } = this.state;
-    const prices = Object.values(await getPrice());
-    const findExchange = prices.find(({ code }) => code === currency);
-    this.setState({ exchangeRates: findExchange });
+    const { id } = this.state;
+    const prices = await getPrice();
+    this.setState({ exchangeRates: prices });
     dispatch(requestExpense(this.state));
     this.setState({ id: id + 1 });
     this.setState({
-      value: 0,
-      description: '',
+      value: '',
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Lazer',
+      description: '',
     });
   }
 
   render() {
-    const currencySelect = [
-      'USD',
-      'CAD',
-      'EUR',
-      'GBP',
-      'ARS',
-      'BTC',
-      'LTC',
-      'JPY',
-      'CHF',
-      'AUD',
-      'CNY',
-      'ILS',
-      'ETH',
-      'XRP',
-    ];
+    const { currencies } = this.props;
     const { value, description } = this.state;
     const methodSelect = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
     const tagSelect = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
@@ -90,7 +74,7 @@ class CreateExpense extends Component {
             data-testid="currency-input"
             onChange={ this.onInputChange }
           >
-            {currencySelect.map((coin) => (
+            {currencies.map((coin) => (
               <option key={ coin } value={ coin }>{coin}</option>
             ))}
           </select>
@@ -122,7 +106,15 @@ class CreateExpense extends Component {
 }
 
 CreateExpense.propTypes = {
+  currencies: PropTypes.arrayOf(PropTypes.object),
+}.isRequired;
+
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
+});
+
+CreateExpense.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(CreateExpense);
+export default connect(mapStateToProps)(CreateExpense);

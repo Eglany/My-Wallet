@@ -27,7 +27,7 @@ export const requestPriceSuccess = (payload) => ({
 
 export function requestPriceThunk() {
   return async (dispatch) => {
-    const prices = Object.values(await getPrice());
+    const prices = Object.keys(await getPrice()).filter((code) => code !== 'USDT');
     dispatch(requestPriceSuccess(prices));
   };
 }
